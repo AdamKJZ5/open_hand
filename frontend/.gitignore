@@ -39,3 +39,4 @@ Thumbs.db
 # Misc
 *.css.map
 
+.DS_Store
