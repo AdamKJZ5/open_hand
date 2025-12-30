@@ -7,17 +7,22 @@ import Services from "./pages/Services"
 import Careers from "./pages/Careers"
 import Contact from "./pages/Contact"
 
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element ={<MainLayout />}>
-          <Route path="/" element={<Home />} />
+      <div className="app-container">
+        <Routes>
+          <Route element ={<MainLayout />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<h1>Welcome to Open Hand Care</h1>} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
-        </Route>
-      </Routes>
+          </Route>
+        </Routes>
+      </div>
     </BrowserRouter>
-  )
+  );
 }
+
+export default App;
