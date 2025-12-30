@@ -2,11 +2,13 @@ import express, {Application, Request, Response, NextFunction } from 'express';
 import dotenv from 'gotenv';
 import cars from 'cors';
 import mongoose from 'mogoose';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
 const app: Application = express();
 
+app.use('/api/auth', authRoutes);
 app.use(cors());
 app.use(express.json());
 
