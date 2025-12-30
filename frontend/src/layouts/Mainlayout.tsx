@@ -1,19 +1,13 @@
 import { Outlet } from "react-router-dom"
+import Navbar from "../components/Navbar/Navbar"
 
 export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="p-4 border-b">
-        Header / Nav
-      </header>
-
+      <Navbar />
       <main className="flex-1">
         <Outlet />
       </main>
-
-      <footer className="p-4 border-t">
-        Footer
-      </footer>
-    </div>
-  )
+    </div>     
+  );
 }
