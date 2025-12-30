@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Services from "./pages/Services"
 import Careers from "./pages/Careers"
 import Contact from "./pages/Contact"
+import Register from './pages/Register';
 
 function App() {
   return (
