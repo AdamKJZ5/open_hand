@@ -1,15 +1,38 @@
 import { Schema, model } from 'mongose';
 
-const userSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true},
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: 'admin' | 'caretaker' | 'family';
+  createdAt: Date;
+}
+const userSchema = new Schema<IUser>({
+  name: {
+    type: String,
+    required: [true, 'Please add a name']
+  },
+  email: {
+    type: String,
+    required: [true, 'Please add an email'],
+    unique: true,
+    match: [/.+\@.+\..+/, 'Please fill a valid email address']
+  },
+  password: {
+    type: String,
+    required: [true, 'Please add a password'],
+    minlength: 6,
+    select: false
+  },
   role: {
     type: String,
-    emu: ['admin', 'caretaker', 'family'],
-    default: 'family'	
-},
-  createdAt: {type: Data,default: Date.now}
+    enum: ['admin', 'caretaker', 'family'],
+    default: 'family'
+  },
+  createdAt: {
+    type: Data,
+    default: Date.now
+  }
 });
 
-export const User = model('User', userSchema);
+export const User = model<IUser>('User', userSchema);
