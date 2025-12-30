@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { User } from '../models/User';
+import { User } from '../models/Users';
 
 // @desc    Register a new user
 // @route   POST /api/auth/register

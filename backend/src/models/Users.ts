@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongose';
+import { Schema, model } from 'mongoose';
 
 export interface IUser extends Document {
   name: string;
@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser>({
     default: 'family'
   },
   createdAt: {
-    type: Data,
+    type: Date,
     default: Date.now
   }
 });
