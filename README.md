@@ -44,27 +44,20 @@ This is not a demo app—it is structured and built like a real product.
 
 ⸻
 
-🧱 Tech Stack
+## 🧱 Tech Stack (Revised)
 
-Frontend
-	•	React + TypeScript
-	•	Vite
-	•	React Router
-	•	Component-driven architecture
-	•	Deployed via Vercel
+**Frontend**
+- React 18 + TypeScript (Vite)
+- Tailwind CSS (for styling)
+- React Router (Client-side routing)
+- Axios (API fetching)
 
-Backend
-	•	FastAPI (Python)
-	•	Pydantic for validation
-	•	SQLAlchemy ORM
-	•	JWT authentication
-	•	SQLite (local) → PostgreSQL (production)
-
-Infrastructure (Planned)
-	•	Docker
-	•	Environment-based configs
-	•	CI-ready structure
-
+**Backend**
+- Node.js & Express
+- TypeScript (Strict type checking)
+- MongoDB + Mongoose (NoSQL Database)
+- JWT (Authentication & Authorization)
+- Multer (File uploads for Job Applications)
 ⸻
 
 🗂 Repository Structure
