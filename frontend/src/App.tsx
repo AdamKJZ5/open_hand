@@ -1,26 +1,23 @@
-import { useState } from 'react'
-import './styles/index.css'
+import { BrowserRouter, Routes, Route} from "react-router-dom"
 
-function App() {
-  const [count, setCount] = useState(0)
+import MainLayout form "./layouts/MainLayout"
 
+import Home from "./pages/Home"
+import Services from "./pages/Services"
+import Careers from "./pages/Careers"
+import Contact from "./pages/Contact"
+
+export default function App() {
   return (
-    <div className="h-screen bg-blue-500 flex flex-col items-center justify-center gap-6">
-      <h1 className="text-white text-4xl font-bold">Hello Tailwind!</h1>
-        
-      <div className="bg-white p-6 rounded shadow-lg flex flex-col items-center">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          count is {count}
-        </button>
-        <p className="mt-4 text-gray-700">
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element ={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/careers" element={<Careers />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
 }
-
 export default App
