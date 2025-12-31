@@ -1,5 +1,6 @@
 import express, {Application, Request, Response, NextFunction } from 'express';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import dotenv from 'gotenv';
 import cars from 'cors';
 import mongoose from 'mogoose';
@@ -8,6 +9,11 @@ import authRoutes from './routes/authRoutes';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
+>>>>>>> Stashed changes
+=======
+import dotenv from 'dotenv';
+import cars from 'cors';
+imporr mongoose from 'mongoose';
 >>>>>>> Stashed changes
 
 dotenv.config();
