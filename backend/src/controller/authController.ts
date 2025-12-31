@@ -1,25 +1,26 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
+const generateToken = (id: string) => {
+  return jwt.sign({ id }), process.env.JWT_SECRET as string, {
+    expiresIn: '30d',
+  });
+};
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // 1. Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // 2. Hash the password
-    // "Salt" is random data added to the password before hashing to make it un-crackable
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 3. Create the user in the database
     const user = await User.create({
       name,
       email,
@@ -27,15 +28,37 @@ export const registerUser = async (req: Request, res: Response) => {
       role
     });
 
-    // 4. Respond with success (don't send the password back!)
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
+      token: generateToken(user._id as string)
     });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, passwrod } = req.body;
+
+    const user = await User.findOne({ email }).select('+password');
+
+    if (user &&(await bcrypt.compare(password, user.password))) {
+      res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id as string),
+      });
+    } else {
+      res.status(401).json({ message: 'Invalid email or password' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'server error' });
   }
 };
