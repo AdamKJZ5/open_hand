@@ -1,8 +1,9 @@
 import express, {Application, Request, Response, NextFunction } from 'express';
+import authRoutes from './routes/authRoutes';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import authRoutes from './routes/authRoutes';
+
 dotenv.config();
 
 const app: Application = express();
@@ -28,7 +29,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 
 app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: UP, message: 'Server is healthy' });
+  res.status(200).json({ status: 'UP', message: 'Server is healthy' });
   });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
