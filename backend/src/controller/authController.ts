@@ -27,6 +27,16 @@ export const registerUser = async (req: Request, res: Response) => {
       role
     });
 
+export const login = async (req: Requeset, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email }).select('+password');
+  
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d'});
+  res.json({ token, user });
+};
     // 4. Respond with success (don't send the password back!)
     res.status(201).json({
       _id: user._id,
