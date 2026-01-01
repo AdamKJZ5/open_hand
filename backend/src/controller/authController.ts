@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import { User } from '../models/Users';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/User';
 
 const generateToken = (id: string) => {
-  return jwt.sign({ id }), process.env.JWT_SECRET as string, {
+  return jwt.sign({ id }, process.env.JWT_SECRET as string, {
     expiresIn: '30d',
   });
 };
@@ -33,7 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id as string)
+      token: generateToken(user.id)
     });
 
   } catch (error) {
@@ -43,7 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const { email, passwrod } = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('+password');
 
@@ -53,7 +53,7 @@ export const loginUser = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id as string),
+      token: generateToken(user.id),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
