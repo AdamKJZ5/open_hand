@@ -4,10 +4,11 @@ import MainLayout from "./layouts/MainLayout"
 
 import Home from "./pages/Home"
 import Login from './pages/Login'
+import Dashboard from "./pages/Dashboard"
+import Register from './pages/Register';
 import Services from "./pages/Services"
 import Careers from "./pages/Careers"
 import Contact from "./pages/Contact"
-import Register from './pages/Register'
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route element ={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/" element={<h1>Welcome to Open Hand Care</h1>} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />

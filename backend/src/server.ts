@@ -1,13 +1,18 @@
-import express, {Application, Request, Response, NextFunction } from 'express';
-import dotenv from 'gotenv';
-import cars from 'cors';
-import mongoose from 'mogoose';
+import express, { Application, Request, Response, NextFunction } from 'express';
+import authRoutes from './routes/authRoutes';
+import oppRoutes from './routes/appRoutes';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
 const app: Application = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
 app.use(express.json());
 
 const connectDB = async() => {
@@ -22,15 +27,22 @@ const connectDB = async() => {
 
 connectDB();
 
+app.use('/api/auth', authRoutes);
+app.use('/api/opportunities', oppRoutes);
+
 app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'UP', message: 'Server is healthy' });
+  });
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode).json({
     message: err.message,
-    stack: procss.env.NODE_ENV === 'production' ? null : err.stack,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
