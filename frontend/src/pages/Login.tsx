@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API from '../api'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,14 +19,12 @@ const Login = () => {
     setError('');
 
     try {
-      // Make sure this port matches your backend!
-      const response = await axios.post('http://localhost:5001/api/auth/login', formData);
       
-      // Save the token and user data to localStorage
+      const response = await API.post('/auth/login', formData);
+ 
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data));
 
-      alert('Login Successful!');
       navigate('/'); // Redirect to home page
     } catch (err: any) {
       setError(err.response?.data?.message || 'Something went wrong');
