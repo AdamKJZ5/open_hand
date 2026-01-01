@@ -18,8 +18,18 @@ const Register = () => {
   // 3. Handle form submission
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Sending to backend:', formData);
-    // Soon, we will add the "fetch" call here to talk to our Node server!
+    
+    try {
+    
+      const response = await axios.post('http://localhost:5001/api/users/register')
+
+      console.log('✅ Success! Backend says:', response.dat);
+      alert('Registration Successful!');
+
+    } catch (err: any) {
+      console.error('❌ Error sending to backend:', err.response?.data || err.message);
+      alert('Registration failed. Check the console for details.')
+    }
   };
 
   return (
