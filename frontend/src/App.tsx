@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom"
 import MainLayout from "./layouts/MainLayout"
 
 import Home from "./pages/Home"
+import Dashboard from "./pages/Dashboard"
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Services from "./pages/Services"
@@ -15,6 +16,7 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route element ={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/" element={<h1>Welcome to Open Hand Care</h1>} />

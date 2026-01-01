@@ -1,29 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// 1. Define what an Opportunity looks like
+interface Opportunity {
+  _id: string;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+}
+
 const Dashboard = () => {
-  const [opportunities, setOpportunities] = useState([]);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOpps = async () => {
-      const res = await axios.get('http://localhost:5001/api/opportunities');
-      setOpportunities(res.data);
+      try {
+        const res = await axios.get('http://localhost:5001/api/opportunities');
+        setOpportunities(res.data);
+      } catch (error) {
+        console.error("Error fetching opportunities:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchOpps();
   }, []);
 
+  if (loading) return <div style={{ padding: '2rem' }}>Loading opportunities...</div>;
+
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
       <h1>Available Opportunities</h1>
-      <div style={{ display: 'grid', gap: '1rem' }}>
-        {opportunities.map((opp: any) => (
-          <div key={opp._id} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
-            <h3>{opp.title}</h3>
-            <p>{opp.description}</p>
-            <small>📍 {opp.location} | 📅 {opp.date}</small>
-          </div>
-        ))}
-      </div>
+      
+      {opportunities.length === 0 ? (
+        <p>No opportunities available at the moment. Check back later!</p>
+      ) : (
+        <div style={{ display: 'grid', gap: '1.5rem' }}>
+          {opportunities.map((opp) => (
+            <div 
+              key={opp._id} 
+              style={{ 
+                border: '1px solid #ddd', 
+                padding: '1.5rem', 
+                borderRadius: '12px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                backgroundColor: '#fff' 
+              }}
+            >
+              <h3 style={{ marginTop: 0, color: '#2d3748' }}>{opp.title}</h3>
+              <p style={{ color: '#4a5568' }}>{opp.description}</p>
+              <div style={{ display: 'flex', gap: '1rem', fontSize: '0.9rem', color: '#718096' }}>
+                <span>📍 {opp.location}</span>
+                <span>📅 {opp.date}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
