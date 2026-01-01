@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../api';
+import { useNavigate } from 'react-router-dom';
 
-// 1. Define what an Opportunity looks like
 interface Opportunity {
   _id: string;
   title: string;
@@ -11,21 +11,39 @@ interface Opportunity {
 }
 
 const Dashboard = () => {
+  const navigate = useNavigate(); 
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOpps = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/opportunities');
+        setLoading(true);
+        const res = await API.get('/opportunities');
         setOpportunities(res.data);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching opportunities:", error);
+        if (error.response?.status === 401) {
+          navigate('/login'); 
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchOpps();
+  }, [navigate]);
+   
+  useEffect(() => {
+    const fetchProtectedData = async () => {
+      try {
+        const res = await API.get('/opportunities'); // This now automatically sends your token!
+        setOpportunities(res.data);
+      } catch (err) {
+        console.log("Not authorized!");
+        navigate('/login');
+      }
+    };
+    fetchProtectedData();
   }, []);
 
   if (loading) return <div style={{ padding: '2rem' }}>Loading opportunities...</div>;
