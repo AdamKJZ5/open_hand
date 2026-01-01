@@ -37,6 +37,8 @@ const OpportunitySchema: Schema = new Schema({
     enum: ['open', 'completed'],
     default: 'open'
   },
+  volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+
   organizer: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
