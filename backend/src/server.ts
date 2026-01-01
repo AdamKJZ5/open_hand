@@ -1,5 +1,6 @@
-import express, {Application, Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import authRoutes from './routes/authRoutes';
+import oppRoutes from './routes/appRoutes';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -27,6 +28,7 @@ const connectDB = async() => {
 connectDB();
 
 app.use('/api/auth', authRoutes);
+app.use('/api/opportunities', oppRoutes);
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'UP', message: 'Server is healthy' });
