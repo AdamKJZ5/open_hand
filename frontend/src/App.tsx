@@ -9,7 +9,7 @@ import Register from './pages/Register';
 import Services from "./pages/Services"
 import Careers from "./pages/Careers"
 import Contact from "./pages/Contact"
-
+import CreateOpportunity from './pages/CreateOpportunity';
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +21,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/" element={<h1>Welcome to Open Hand Care</h1>} />
           <Route path="/services" element={<Services />} />
+          <Route path="/create-opportunity" element={<CreateOpportunity />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           </Route>
