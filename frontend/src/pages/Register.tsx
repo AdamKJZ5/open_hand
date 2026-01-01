@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import axios from 'axios';
 const Register = () => {
   // 1. Setup State for the form
   const [formData, setFormData] = useState({
@@ -21,10 +21,9 @@ const Register = () => {
     
     try {
     
-      const response = await axios.post('http://localhost:5001/api/users/register')
+      const response = await axios.post('http://localhost:5001/api/auth/register', formData);
 
       console.log('✅ Success! Backend says:', response.dat);
-      alert('Registration Successful!');
 
     } catch (err: any) {
       console.error('❌ Error sending to backend:', err.response?.data || err.message);

@@ -42,7 +42,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
