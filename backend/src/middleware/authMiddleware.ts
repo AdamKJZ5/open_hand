@@ -1,27 +1,37 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-export const protect = async (req: Request, res: Response, next: NextFunction) => {
+interface AuthRequest extends Request {
+  user?: any;
+}
+
+export const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-
     try {
-
       token = req.headers.authorization.split(' ')[1];
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as any;
 
-      (req as any).user = decoded;
+      req.user = decoded; 
 
-      next(); // Success! Move to the Controller
-
+      next();
     } catch (error) {
+      console.error("JWT Verification Error:", error);
       res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
 
   if (!token) {
     res.status(401).json({ message: 'Not authorized, no token' });
+  }
+};
+
+export const admin = (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (req.user && req.user.role === 'admin') {
+    next(); // Access granted
+  } else {
+    res.status(403).json({ message: 'Not authorized as an admin' });
   }
 };

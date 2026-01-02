@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '../models/Users';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (id: string) => {
+const generateToken = (id: any) => {
   return jwt.sign({ id }, process.env.JWT_SECRET as string, {
     expiresIn: '30d',
   });

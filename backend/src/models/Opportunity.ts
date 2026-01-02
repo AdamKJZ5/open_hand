@@ -29,7 +29,7 @@ const OpportunitySchema: Schema = new Schema({
   },
   category: {
     type: String,
-    enum: ['Food', 'Education', 'Environment', 'Health', 'Other'],
+    enum: ['Gardening', 'Food', 'Education', 'Environment', 'Health', 'Other'],
     default: 'Other'
   },
   status: {
