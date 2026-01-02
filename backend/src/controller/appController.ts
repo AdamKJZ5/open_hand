@@ -12,7 +12,7 @@ export const getOpportunities = async (req: Request, res: Response) => {
 
 export const createOpportunity = async (req: Request, res: Response) => {
   try {
-    const { title, description, location, date, organizerId } = req.body;
+    const { title, description, location, date, category } = req.body;
     const newOpp = await Opportunity.create({
       title,
       description,
@@ -25,7 +25,7 @@ export const createOpportunity = async (req: Request, res: Response) => {
     const savedOpp = await newOpp.save();
     res.status(201).json(savedOpp);
   } catch (error: any) {
-    console.error(error);
+    console.error("Mongoose Error:" error.message);
     res.status(400).json({ message: 'Invalid data' });
   }
 };
