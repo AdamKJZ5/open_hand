@@ -18,10 +18,14 @@ export const createOpportunity = async (req: Request, res: Response) => {
       description,
       location,
       date,
-      organizer: organizerId // We will automate this later with Auth Middleware
+      category: category || 'Other',
+      organizer: req.user.id 
     });
-    res.status(201).json(newOpp);
-  } catch (error) {
+
+    const savedOpp = await newOpp.save();
+    res.status(201).json(savedOpp);
+  } catch (error: any) {
+    console.error(error);
     res.status(400).json({ message: 'Invalid data' });
   }
 };
