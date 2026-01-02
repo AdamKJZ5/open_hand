@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { createLead } from '../controllers/leadController';
+import { createLead } from '../controller/leadController';
 
 const router = express.Router();
 
