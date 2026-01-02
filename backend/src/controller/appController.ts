@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import { Opportunity } from '../models/Opportunity';
 
-// 1. Create Opportunity
+
+
+
+
 export const createOpportunity = async (req: any, res: Response) => {
   try {
     const { title, description, location, date, category } = req.body;
@@ -17,9 +20,12 @@ export const createOpportunity = async (req: any, res: Response) => {
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
-}; // Closed properly
+};
 
-// 2. Get All Opportunities
+
+
+
+
 export const getOpportunities = async (req: Request, res: Response) => {
   try {
     const opps = await Opportunity.find().populate('organizer', 'name');
@@ -29,7 +35,10 @@ export const getOpportunities = async (req: Request, res: Response) => {
   }
 };
 
-// 3. Update Opportunity
+
+
+
+
 export const updateOpportunity = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
@@ -49,7 +58,10 @@ export const updateOpportunity = async (req: any, res: Response) => {
   }
 };
 
-// 4. Delete Opportunity
+
+
+
+
 export const deleteOpportunity = async (req: any, res: Response) => {
   try {
     const { id } = req.params;
@@ -60,6 +72,35 @@ export const deleteOpportunity = async (req: any, res: Response) => {
     }
 
     res.status(200).json({ message: 'Opportunity deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
+
+export const joinOpportunity = async (req: any, res: Response) => {
+  try {
+    const opportunity = await Opportunity.findById(req.params.id);
+
+    if (!opportunity) {
+      return res.status(404).json({ message: 'Opportunity not found' });
+    }
+
+    const alreadyApplied = opportunity.applicants.find(
+      (userId) => userId.toString() === req.user.id.toString()
+    );
+
+    if (alreadyApplied) {
+      return res.status(400).json({ message: 'You have already joined this opportunity' });
+    }
+
+    opportunity.applicants.push(req.user.id);
+    await opportunity.save();
+
+    res.status(200).json({ message: 'Successfully joined the opportunity!' });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

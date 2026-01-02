@@ -3,7 +3,8 @@ import {
   getOpportunities, 
   createOpportunity,
   updateOpportunity,
-  deleteOpportunity
+  deleteOpportunity,
+  joinOpportunity
  } from '../controller/appController';
 import { protect, admin } from '../middleware/authMiddleware';
 
@@ -12,6 +13,7 @@ const router = express.Router();
 
 //Public Route
 router.get('/', getOpportunities);
+router.post('/:id/join', protect, joinOpportunity );
 
 //Admin
 router.post('/', protect, admin, createOpportunity);
