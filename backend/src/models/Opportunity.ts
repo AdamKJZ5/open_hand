@@ -44,8 +44,6 @@ const OpportunitySchema: Schema = new Schema({
     ref: 'User', 
     required: true 
   }
-}, { 
-  timestamps: true // This automatically creates 'createdAt' and 'updatedAt' fields
-});
+}, { timestamps: true });
 
 export const Opportunity = mongoose.model<IOpportunity>('Opportunity', OpportunitySchema);
