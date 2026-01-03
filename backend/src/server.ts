@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import authRoutes from './routes/authRoutes';
 import oppRoutes from './routes/appRoutes';
 import leadRoutes from './routes/leadRoutes'; // Imported
+import residentApplicationRoutes from './routes/residentApplicationRoutes';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -41,6 +42,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/opportunities', oppRoutes);
 app.use('/api/leads', leadRoutes); // Correctly mounted
+app.use('/api/resident-applications', residentApplicationRoutes);
 
 // Health Check for Deployment
 app.get('/health', (req: Request, res: Response) => {

@@ -2,13 +2,11 @@ import { BrowserRouter, Routes, Route} from "react-router-dom"
 
 import MainLayout from "./layouts/MainLayout"
 
-import Home from "./pages/Home"
 import Dashboard from "./pages/Dashboard"
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Services from "./pages/Services"
-import Careers from "./pages/Careers"
-import Contact from "./pages/Contact"
+import ResidentApplicationForm from './pages/ResidentApplicationForm';
+import ManageApplications from './pages/ManageApplications';
 
 function App() {
   return (
@@ -19,10 +17,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/apply" element={<ResidentApplicationForm />} />
+          <Route path="/admin/applications" element={<ManageApplications />} />
           <Route path="/" element={<h1>Welcome to Open Hand Care</h1>} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/careers" element={<Careers />} />
           </Route>
         </Routes>
       </div>
