@@ -12,6 +12,22 @@ export const createLead = async (req: Request, res: Response) => {
       serviceNeeded,
       message
     });
+  try {
+        await sendEmail({
+          email: process.env.ADMIN_EMAIL || 'your-email@gmail.com',
+          subject: '🚨 NEW CLIENT INQUIRY - Open Hand Care',
+          message: `
+            You have a new lead!
+            Name: ${clientName}
+            Email: ${contactEmail}
+            Phone: ${phoneNumber}
+            Service: ${serviceNeeded}
+            Message: ${message}
+          `
+        });
+      } catch (emailErr) {
+        console.error('Email failed to send, but lead was saved to DB');
+      }
 
     res.status(201).json({ 
       success: true,
