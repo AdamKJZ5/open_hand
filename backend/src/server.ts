@@ -3,6 +3,10 @@ import authRoutes from './routes/authRoutes';
 import oppRoutes from './routes/appRoutes';
 import leadRoutes from './routes/leadRoutes'; // Imported
 import residentApplicationRoutes from './routes/residentApplicationRoutes';
+import opportunityApplicationRoutes from './routes/opportunityApplicationRoutes';
+import userRoutes from './routes/userRoutes';
+import passwordResetRoutes from './routes/passwordResetRoutes';
+import jobRoutes from './routes/jobRoutes';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -12,8 +16,24 @@ dotenv.config();
 const app: Application = express();
 
 // --- Middleware ---
+// Allow frontend from localhost and network IP for mobile access
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://10.0.0.236:5173' // Your Mac's IP for iPhone access
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173' // Ready for your Vite/React frontend
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 app.use(express.json());
@@ -43,6 +63,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/opportunities', oppRoutes);
 app.use('/api/leads', leadRoutes); // Correctly mounted
 app.use('/api/resident-applications', residentApplicationRoutes);
+app.use('/api/opportunity-applications', opportunityApplicationRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/password-reset', passwordResetRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // Health Check for Deployment
 app.get('/health', (req: Request, res: Response) => {
@@ -62,6 +86,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const PORT = process.env.PORT || 5001;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, () => {
+// Listen on all network interfaces (0.0.0.0) to allow iPhone access
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running in ${NODE_ENV} mode on port ${PORT}`);
+  console.log(`Local: http://localhost:${PORT}`);
+  console.log(`Network: http://10.0.0.236:${PORT}`);
+  console.log(`Frontend URL for iPhone: http://10.0.0.236:5173`);
 });

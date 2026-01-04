@@ -130,8 +130,8 @@ const ResidentApplicationForm = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-[#F5F1E8] rounded-lg shadow-lg p-8 text-center">
           <div className="text-green-500 text-6xl mb-4">✓</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h2>
           <p className="text-gray-600 mb-4">
@@ -144,9 +144,10 @@ const ResidentApplicationForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-8">
+    <div className="min-h-screen bg-[#F5F1E8]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-4xl mx-auto">
+        <div className="bg-[#F5F1E8] rounded-lg shadow-md p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Resident Application</h1>
           <p className="text-gray-600 mb-8">
             Please fill out this form to apply for residency at our care facility.
@@ -175,7 +176,7 @@ const ResidentApplicationForm = () => {
                     value={formData.firstName}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -188,7 +189,7 @@ const ResidentApplicationForm = () => {
                     value={formData.lastName}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -201,7 +202,7 @@ const ResidentApplicationForm = () => {
                     value={formData.dateOfBirth}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -213,7 +214,7 @@ const ResidentApplicationForm = () => {
                     value={formData.gender}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -240,7 +241,7 @@ const ResidentApplicationForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -253,7 +254,7 @@ const ResidentApplicationForm = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div className="md:col-span-2">
@@ -266,7 +267,7 @@ const ResidentApplicationForm = () => {
                     value={formData.address.street}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -279,7 +280,7 @@ const ResidentApplicationForm = () => {
                     value={formData.address.city}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -292,7 +293,7 @@ const ResidentApplicationForm = () => {
                     value={formData.address.state}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -305,7 +306,7 @@ const ResidentApplicationForm = () => {
                     value={formData.address.zipCode}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
               </div>
@@ -327,7 +328,7 @@ const ResidentApplicationForm = () => {
                     value={formData.emergencyContact.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -340,7 +341,7 @@ const ResidentApplicationForm = () => {
                     value={formData.emergencyContact.relationship}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -353,7 +354,7 @@ const ResidentApplicationForm = () => {
                     value={formData.emergencyContact.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -365,7 +366,7 @@ const ResidentApplicationForm = () => {
                     name="emergencyContact.email"
                     value={formData.emergencyContact.email}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
               </div>
@@ -386,7 +387,7 @@ const ResidentApplicationForm = () => {
                     value={formData.medicalHistory}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     placeholder="Please describe any relevant medical conditions..."
                   />
                 </div>
@@ -399,7 +400,7 @@ const ResidentApplicationForm = () => {
                     value={formData.medications}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     placeholder="List all current medications..."
                   />
                 </div>
@@ -412,7 +413,7 @@ const ResidentApplicationForm = () => {
                     value={formData.allergies}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     placeholder="List any allergies..."
                   />
                 </div>
@@ -426,7 +427,7 @@ const ResidentApplicationForm = () => {
                       value={formData.mobilityLevel}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     >
                       <option value="independent">Independent</option>
                       <option value="assisted">Assisted</option>
@@ -443,7 +444,7 @@ const ResidentApplicationForm = () => {
                       name="specialNeeds"
                       value={formData.specialNeeds}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     />
                   </div>
                 </div>
@@ -465,7 +466,7 @@ const ResidentApplicationForm = () => {
                     value={formData.careLevel}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   >
                     <option value="basic">Basic</option>
                     <option value="intermediate">Intermediate</option>
@@ -483,7 +484,7 @@ const ResidentApplicationForm = () => {
                     value={formData.preferredMoveInDate}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   />
                 </div>
                 <div>
@@ -494,7 +495,7 @@ const ResidentApplicationForm = () => {
                     name="roomPreference"
                     value={formData.roomPreference}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   >
                     <option value="private">Private</option>
                     <option value="shared">Shared</option>
@@ -519,7 +520,7 @@ const ResidentApplicationForm = () => {
                     value={formData.paymentMethod}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                   >
                     <option value="private">Private Pay</option>
                     <option value="medicare">Medicare</option>
@@ -535,7 +536,7 @@ const ResidentApplicationForm = () => {
                       name="hasInsurance"
                       checked={formData.hasInsurance}
                       onChange={handleChange}
-                      className="w-4 h-4 text-blue-600"
+                      className="w-4 h-4 text-[#4A6741]"
                     />
                     <span className="text-sm font-medium text-gray-700">
                       I have insurance
@@ -552,7 +553,7 @@ const ResidentApplicationForm = () => {
                       name="insuranceProvider"
                       value={formData.insuranceProvider}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     />
                   </div>
                 )}
@@ -574,7 +575,7 @@ const ResidentApplicationForm = () => {
                     value={formData.interests}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     placeholder="Tell us about your hobbies and interests..."
                   />
                 </div>
@@ -587,7 +588,7 @@ const ResidentApplicationForm = () => {
                     value={formData.additionalNotes}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6741]"
                     placeholder="Any additional information you'd like to share..."
                   />
                 </div>
@@ -605,12 +606,13 @@ const ResidentApplicationForm = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="px-8 py-2 bg-[#4A6741] text-white rounded-md hover:bg-[#3A5531] disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? 'Submitting...' : 'Submit Application'}
               </button>
             </div>
           </form>
+        </div>
         </div>
       </div>
     </div>
