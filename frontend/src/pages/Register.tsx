@@ -63,7 +63,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center py-12 px-8 sm:px-12 lg:px-16 relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-[#7C9A7F]/30 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
       <div className="absolute top-40 right-10 w-72 h-72 bg-[#8B6F47]/30 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
