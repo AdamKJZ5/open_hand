@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface JobPosting {
   _id: string;
@@ -45,7 +46,7 @@ const Careers = () => {
           email: user.email || ''
         }));
       } catch (err) {
-        console.error('Error parsing user:', err);
+        // Silently handle parsing error
       }
     }
 
@@ -73,7 +74,7 @@ const Careers = () => {
       const response = await API.get('/jobs/postings/active');
       setJobs(response.data);
     } catch (err) {
-      console.error('Error fetching jobs:', err);
+      // Error fetching jobs - silently fail
     } finally {
       setLoading(false);
     }
@@ -115,8 +116,8 @@ const Careers = () => {
         setShowApplicationModal(false);
         setMessage('');
       }, 2000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit application');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to submit application');
     } finally {
       setSubmitting(false);
     }
@@ -141,7 +142,7 @@ const Careers = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-6xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4">

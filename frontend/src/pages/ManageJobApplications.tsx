@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
+import { getJobApplicationStatusColor } from '../utils/statusHelpers';
 
 interface JobPosting {
   _id: string;
@@ -38,6 +40,9 @@ const ManageJobApplications = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [adminNotes, setAdminNotes] = useState('');
   const [newStatus, setNewStatus] = useState<string>('');
+  const [error, setError] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [applicationToDelete, setApplicationToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -54,7 +59,7 @@ const ManageJobApplications = () => {
       const response = await API.get('/jobs/applications', { params });
       setApplications(response.data);
     } catch (err) {
-      console.error('Error fetching applications:', err);
+      // Error fetching applications
     } finally {
       setLoading(false);
     }
@@ -64,12 +69,14 @@ const ManageJobApplications = () => {
     setSelectedApplication(application);
     setNewStatus(application.status);
     setAdminNotes(application.adminNotes || '');
+    setError('');
     setShowDetailModal(true);
   };
 
   const handleUpdateStatus = async () => {
     if (!selectedApplication) return;
 
+    setError('');
     try {
       await API.put(`/jobs/applications/${selectedApplication._id}/status`, {
         status: newStatus,
@@ -77,37 +84,33 @@ const ManageJobApplications = () => {
       });
       await fetchApplications();
       setShowDetailModal(false);
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to update application');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to update application');
     }
   };
 
-  const handleDelete = async (applicationId: string) => {
-    if (!window.confirm('Are you sure you want to delete this application?')) {
-      return;
-    }
+  const handleDelete = (applicationId: string) => {
+    setApplicationToDelete(applicationId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!applicationToDelete) return;
 
     try {
-      await API.delete(`/jobs/applications/${applicationId}`);
+      await API.delete(`/jobs/applications/${applicationToDelete}`);
       await fetchApplications();
       if (showDetailModal) {
         setShowDetailModal(false);
       }
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete application');
+      setShowDeleteModal(false);
+      setApplicationToDelete(null);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to delete application');
+      setShowDeleteModal(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'reviewed': return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'interview': return 'bg-purple-100 text-[#3A5531] border-purple-200';
-      case 'accepted': return 'bg-green-100 text-green-700 border-green-200';
-      case 'rejected': return 'bg-red-100 text-red-700 border-red-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
 
   const statusCounts = {
     all: applications.length,
@@ -128,7 +131,7 @@ const ManageJobApplications = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         <h1 className="text-4xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-8">
           Manage Job Applications
         </h1>
@@ -171,7 +174,7 @@ const ManageJobApplications = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h2 className="text-2xl font-bold text-gray-900">{application.fullName}</h2>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(application.status)}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getJobApplicationStatusColor(application.status)}`}>
                         {application.status.toUpperCase()}
                       </span>
                     </div>
@@ -305,6 +308,13 @@ const ManageJobApplications = () => {
                 </div>
               </div>
 
+              {/* Error Display */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                  {error}
+                </div>
+              )}
+
               {/* Actions */}
               <div className="flex space-x-3 pt-4">
                 <button
@@ -320,6 +330,38 @@ const ManageJobApplications = () => {
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] text-white rounded-full font-semibold hover:from-[#3A5531] hover:to-[#6C8A6F] transition-all"
                 >
                   Update Application
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#F5F1E8] rounded-2xl shadow-2xl max-w-md w-full p-6">
+            <div className="text-center">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Confirm Deletion</h2>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete this application? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setApplicationToDelete(null);
+                  }}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-bold hover:bg-gray-300 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full font-bold hover:from-red-600 hover:to-pink-600 transition-all shadow-lg"
+                >
+                  Delete
                 </button>
               </div>
             </div>

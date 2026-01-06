@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
+import { getJobPostingStatusColor } from '../utils/statusHelpers';
 
 interface JobPosting {
   _id: string;
@@ -35,6 +37,8 @@ const ManageJobPostings = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [jobToDelete, setJobToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -50,7 +54,7 @@ const ManageJobPostings = () => {
       const response = await API.get('/jobs/postings');
       setJobs(response.data);
     } catch (err) {
-      console.error('Error fetching jobs:', err);
+      // Error fetching jobs
     } finally {
       setLoading(false);
     }
@@ -110,30 +114,30 @@ const ManageJobPostings = () => {
 
       await fetchJobs();
       setShowModal(false);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to save job posting');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to save job posting');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleDelete = async (jobId: string) => {
-    if (!window.confirm('Are you sure you want to delete this job posting?')) {
-      return;
-    }
-
-    try {
-      await API.delete(`/jobs/postings/${jobId}`);
-      await fetchJobs();
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete job posting');
-    }
+  const handleDelete = (jobId: string) => {
+    setJobToDelete(jobId);
+    setShowDeleteModal(true);
   };
 
-  const getStatusColor = (status: string) => {
-    return status === 'active'
-      ? 'bg-green-100 text-green-700 border-green-200'
-      : 'bg-gray-100 text-gray-700 border-gray-200';
+  const confirmDelete = async () => {
+    if (!jobToDelete) return;
+
+    try {
+      await API.delete(`/jobs/postings/${jobToDelete}`);
+      await fetchJobs();
+      setShowDeleteModal(false);
+      setJobToDelete(null);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to delete job posting');
+      setShowDeleteModal(false);
+    }
   };
 
   const getTypeColor = (type: string) => {
@@ -155,7 +159,7 @@ const ManageJobPostings = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent">
             Manage Job Postings
@@ -188,7 +192,7 @@ const ManageJobPostings = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h2 className="text-2xl font-bold text-gray-900">{job.title}</h2>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(job.status)}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getJobPostingStatusColor(job.status)}`}>
                         {job.status.toUpperCase()}
                       </span>
                       <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getTypeColor(job.type)}`}>
@@ -376,6 +380,38 @@ const ManageJobPostings = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#F5F1E8] rounded-2xl shadow-2xl max-w-md w-full p-6">
+            <div className="text-center">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Confirm Deletion</h2>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete this job posting? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setJobToDelete(null);
+                  }}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-bold hover:bg-gray-300 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full font-bold hover:from-red-600 hover:to-pink-600 transition-all shadow-lg"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

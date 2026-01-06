@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface User {
   _id: string;
@@ -19,6 +20,8 @@ const ManageUsers = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<{ id: string; name: string } | null>(null);
 
   useEffect(() => {
     fetchUsers();
@@ -38,8 +41,8 @@ const ManageUsers = () => {
       const response = await API.get('/users');
       setUsers(response.data);
       setFilteredUsers(response.data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to fetch users');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to fetch users');
     } finally {
       setLoading(false);
     }
@@ -48,12 +51,13 @@ const ManageUsers = () => {
   const handleUpdateRole = async (userId: string, newRole: string) => {
     try {
       setUpdating(true);
+      setError('');
       await API.put(`/users/${userId}/role`, { role: newRole });
       await fetchUsers();
       setShowRoleModal(false);
       setSelectedUser(null);
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to update role');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to update role');
     } finally {
       setUpdating(false);
     }
@@ -63,21 +67,27 @@ const ManageUsers = () => {
     try {
       await API.put(`/users/${userId}/schedule`, { hasSchedule: !currentStatus });
       await fetchUsers();
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to update schedule status');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to update schedule status');
     }
   };
 
-  const handleDeleteUser = async (userId: string, userName: string) => {
-    if (!window.confirm(`Are you sure you want to delete ${userName}? This action cannot be undone.`)) {
-      return;
-    }
+  const handleDeleteUser = (userId: string, userName: string) => {
+    setUserToDelete({ id: userId, name: userName });
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!userToDelete) return;
 
     try {
-      await API.delete(`/users/${userId}`);
+      await API.delete(`/users/${userToDelete.id}`);
       await fetchUsers();
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete user');
+      setShowDeleteModal(false);
+      setUserToDelete(null);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to delete user');
+      setShowDeleteModal(false);
     }
   };
 
@@ -118,7 +128,7 @@ const ManageUsers = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F5F1E8] pt-[100px] pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -439,6 +449,38 @@ const ManageUsers = () => {
             >
               Cancel
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && userToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#F5F1E8] rounded-2xl shadow-2xl max-w-md w-full p-6">
+            <div className="text-center">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Confirm Deletion</h2>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete <strong>{userToDelete.name}</strong>? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setUserToDelete(null);
+                  }}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-full font-bold hover:bg-gray-300 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-full font-bold hover:from-red-600 hover:to-pink-600 transition-all shadow-lg"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

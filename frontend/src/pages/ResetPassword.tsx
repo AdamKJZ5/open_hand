@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -50,8 +51,8 @@ const ResetPassword = () => {
       setTimeout(() => {
         navigate('/login');
       }, 3000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to reset password. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to reset password. Please try again.');
     } finally {
       setLoading(false);
     }

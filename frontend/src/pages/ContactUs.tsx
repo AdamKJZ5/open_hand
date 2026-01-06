@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -29,8 +30,8 @@ const ContactUs = () => {
         message: ''
       });
       setTimeout(() => setSuccess(false), 5000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to send inquiry. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to send inquiry. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -38,7 +39,7 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 pt-[100px] pb-16 md:pb-24">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4">

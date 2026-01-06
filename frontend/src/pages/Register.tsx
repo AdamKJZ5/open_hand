@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 const Register = () => {
   const [loginLink, setLoginLink] = useState('/login');
@@ -55,8 +56,8 @@ const Register = () => {
         // Default welcome page
         navigate('/welcome');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -195,13 +196,13 @@ const Register = () => {
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
                 I agree to the{' '}
-                <a href="#" className="text-[#4A6741] hover:text-indigo-500 font-medium">
+                <span className="text-[#4A6741] font-medium">
                   Terms of Service
-                </a>{' '}
+                </span>{' '}
                 and{' '}
-                <a href="#" className="text-[#4A6741] hover:text-indigo-500 font-medium">
+                <span className="text-[#4A6741] font-medium">
                   Privacy Policy
-                </a>
+                </span>
               </label>
             </div>
 

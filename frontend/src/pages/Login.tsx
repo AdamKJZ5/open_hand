@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import API from '../api'
+import API from '../api';
+import { getErrorMessage } from '../types/errors'
 
 const Login = () => {
   const [registerLink, setRegisterLink] = useState('/register');
@@ -38,20 +39,24 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data));
 
-      // Check if user was trying to apply for a job
+      // Check for redirect parameters
       const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect'); // General redirect from auth interceptor
       const returnTo = urlParams.get('returnTo');
       const jobId = urlParams.get('jobId');
 
-      if (returnTo && jobId) {
+      if (redirect) {
+        // Redirect back to where the user was trying to go
+        navigate(redirect);
+      } else if (returnTo && jobId) {
         // Redirect back to careers page with job ID
         navigate(`${returnTo}?jobId=${jobId}`);
       } else {
         // Default dashboard
         navigate('/dashboard');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Invalid email or password');
     } finally {
       setLoading(false);
     }

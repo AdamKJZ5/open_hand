@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import API from '../api';
+import { getLeadStatusColor, getStatusEmoji } from '../utils/statusHelpers';
 
 interface Lead {
   _id: string;
@@ -29,8 +30,8 @@ const ManageLeads = () => {
       const response = await API.get('/leads');
       setLeads(response.data);
     } catch (error) {
-      console.error('Error fetching leads:', error);
-    } finally {
+      // Error fetching leads
+    } finally{
       setLoading(false);
     }
   };
@@ -38,24 +39,6 @@ const ManageLeads = () => {
   const filteredLeads = filterStatus === 'all'
     ? leads
     : leads.filter(lead => lead.status === filterStatus);
-
-  const getStatusColor = (status: string) => {
-    const colors: { [key: string]: string } = {
-      new: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      contacted: 'bg-blue-100 text-blue-800 border-blue-200',
-      closed: 'bg-gray-100 text-gray-800 border-gray-200'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
-  };
-
-  const getStatusEmoji = (status: string) => {
-    const emojis: { [key: string]: string } = {
-      new: '🆕',
-      contacted: '📞',
-      closed: '✅'
-    };
-    return emojis[status] || '📄';
-  };
 
   const getServiceEmoji = (service: string) => {
     const emojis: { [key: string]: string } = {
@@ -77,7 +60,7 @@ const ManageLeads = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-5xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4">
@@ -173,7 +156,7 @@ const ManageLeads = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getStatusColor(lead.status)}`}>
+                        <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getLeadStatusColor(lead.status)}`}>
                           {getStatusEmoji(lead.status)} {lead.status.toUpperCase()}
                         </span>
                       </td>
@@ -224,7 +207,7 @@ const ManageLeads = () => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Status</p>
-                      <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getStatusColor(selectedLead.status)}`}>
+                      <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getLeadStatusColor(selectedLead.status)}`}>
                         {getStatusEmoji(selectedLead.status)} {selectedLead.status.toUpperCase()}
                       </span>
                     </div>

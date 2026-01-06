@@ -147,22 +147,22 @@ const Home = () => {
       <section className="relative bg-gradient-to-br from-[#4A6741] via-[#5A7A5F] to-[#7C9A7F] text-white overflow-hidden -mt-1">
         <div className="absolute inset-0 bg-black opacity-5"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[50px] flex items-center justify-center min-h-[250px]">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-0 leading-tight">
               Compassionate Care,<br />
               Comfort & Community
             </h1>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col gap-[5px] sm:flex-row sm:gap-[50px] justify-center items-center mt-8 mb-0">
               <Link
                 to="/apply"
-                className="px-10 py-4 bg-[#8B6F47] text-white rounded-full font-bold text-lg hover:bg-[#6B5437] transition-all transform hover:scale-105 shadow-xl"
+                className="px-8 py-3 bg-white text-[#1f2937] rounded-lg font-semibold text-base hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
               >
                 Apply for Residency
               </Link>
               <Link
                 to="/our-homes"
-                className="px-10 py-4 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all transform hover:scale-105 shadow-xl border-2 border-white/30"
+                className="px-8 py-3 bg-white text-[#1f2937] rounded-lg font-semibold text-base hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
               >
                 Tour Our Homes
               </Link>
@@ -172,10 +172,10 @@ const Home = () => {
       </section>
 
       {/* Amenities Slideshow */}
-      <section className="py-20 md:py-28 bg-[#F5F1E8]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-[#4A6741] mb-4">
+      <section className="py-24 md:py-32 lg:py-40 bg-[#F5F1E8]">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-16 md:mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-[#4A6741] mb-6">
               Our Amenities
             </h2>
             <p className="text-lg md:text-xl text-[#736B5E] max-w-3xl mx-auto">
@@ -189,10 +189,10 @@ const Home = () => {
       </section>
 
       {/* Services Slideshow */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-[#4A6741] mb-4">
+      <section className="py-24 md:py-32 lg:py-40 bg-white">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-16 md:mb-20">
+            <h2 className="text-4xl md:text-5xl font-black text-[#4A6741] mb-6">
               Our Services
             </h2>
             <p className="text-lg md:text-xl text-[#736B5E] max-w-3xl mx-auto">
@@ -206,26 +206,26 @@ const Home = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="relative bg-gradient-to-br from-[#7C9A7F] to-[#4A6741] text-white py-24 md:py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#7C9A7F] to-[#4A6741] text-white py-28 md:py-36 lg:py-44 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-5"></div>
 
-        <div className="relative max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
+        <div className="relative max-w-5xl mx-auto text-center px-6 sm:px-8 lg:px-12">
+          <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
             Ready to Join Our Family?
           </h2>
-          <p className="text-xl md:text-2xl mb-12 text-white/95 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl mb-16 text-white/95 max-w-3xl mx-auto">
             Schedule a tour, meet our staff, and discover why families trust OpenHand Care for their loved ones.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Link
               to="/contact"
-              className="px-12 py-5 bg-[#8B6F47] text-white rounded-full font-bold text-lg hover:bg-[#6B5437] transition-all transform hover:scale-105 shadow-2xl"
+              className="px-8 py-3 bg-white text-[#1f2937] rounded-lg font-semibold text-base hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
             >
               Contact Us Today
             </Link>
             <Link
               to="/apply"
-              className="px-12 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all transform hover:scale-105 shadow-2xl border-2 border-white/30"
+              className="px-8 py-3 bg-white text-[#1f2937] rounded-lg font-semibold text-base hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
             >
               Start Application
             </Link>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface PasswordPromptProps {
   isOpen: boolean;
@@ -25,8 +26,8 @@ const PasswordPrompt: React.FC<PasswordPromptProps> = ({ isOpen, onClose, onSucc
       setPassword('');
       setError('');
       onSuccess();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Incorrect password. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Incorrect password. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
+import { getOpportunityApplicationStatusColor, getStatusEmoji } from '../utils/statusHelpers';
 
 interface Application {
   _id: string;
@@ -35,6 +37,7 @@ const ManageOpportunityApplications = () => {
   const [showModal, setShowModal] = useState(false);
   const [adminNotes, setAdminNotes] = useState('');
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchApplications();
@@ -47,7 +50,7 @@ const ManageOpportunityApplications = () => {
       const response = await API.get('/opportunity-applications', { params });
       setApplications(response.data.data);
     } catch (error) {
-      console.error('Error fetching applications:', error);
+      // Error fetching applications
     } finally {
       setLoading(false);
     }
@@ -56,6 +59,7 @@ const ManageOpportunityApplications = () => {
   const handleViewApplication = (app: Application) => {
     setSelectedApp(app);
     setAdminNotes(app.adminNotes || '');
+    setError('');
     setShowModal(true);
   };
 
@@ -63,6 +67,7 @@ const ManageOpportunityApplications = () => {
     if (!selectedApp) return;
 
     setUpdatingStatus(true);
+    setError('');
     try {
       await API.put(`/opportunity-applications/${selectedApp._id}/status`, {
         status: newStatus,
@@ -70,33 +75,13 @@ const ManageOpportunityApplications = () => {
       });
       await fetchApplications();
       setShowModal(false);
-      alert('Application status updated successfully!');
-    } catch (error: any) {
-      alert(error.response?.data?.message || 'Failed to update status');
+    } catch (error: unknown) {
+      setError(getErrorMessage(error) || 'Failed to update status');
     } finally {
       setUpdatingStatus(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: { [key: string]: string } = {
-      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      reviewed: 'bg-blue-100 text-blue-800 border-blue-200',
-      accepted: 'bg-green-100 text-green-800 border-green-200',
-      rejected: 'bg-red-100 text-red-800 border-red-200'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
-  };
-
-  const getStatusEmoji = (status: string) => {
-    const emojis: { [key: string]: string } = {
-      pending: '⏳',
-      reviewed: '👀',
-      accepted: '✅',
-      rejected: '❌'
-    };
-    return emojis[status] || '📄';
-  };
 
   if (loading && applications.length === 0) {
     return (
@@ -108,7 +93,7 @@ const ManageOpportunityApplications = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-5xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4">
@@ -208,7 +193,7 @@ const ManageOpportunityApplications = () => {
                         <div className="text-sm text-gray-900">{app.availability}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getStatusColor(app.status)}`}>
+                        <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getOpportunityApplicationStatusColor(app.status)}`}>
                           {getStatusEmoji(app.status)} {app.status.toUpperCase()}
                         </span>
                       </td>
@@ -264,7 +249,7 @@ const ManageOpportunityApplications = () => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Current Status</p>
-                      <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getStatusColor(selectedApp.status)}`}>
+                      <span className={`px-3 py-1 text-xs font-bold rounded-full border-2 ${getOpportunityApplicationStatusColor(selectedApp.status)}`}>
                         {getStatusEmoji(selectedApp.status)} {selectedApp.status.toUpperCase()}
                       </span>
                     </div>
@@ -320,6 +305,13 @@ const ManageOpportunityApplications = () => {
                     placeholder="Add notes about this application..."
                   />
                 </div>
+
+                {/* Error Display */}
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    {error}
+                  </div>
+                )}
 
                 {/* Status Update Actions */}
                 <div className="border-t pt-6">

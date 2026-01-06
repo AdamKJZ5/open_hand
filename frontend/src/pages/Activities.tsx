@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface Activity {
   _id: string;
@@ -36,7 +37,7 @@ const Activities = () => {
         const user = JSON.parse(userStr);
         setUserRole(user.role || '');
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Silently handle parsing error
       }
     }
     fetchActivities();
@@ -47,8 +48,8 @@ const Activities = () => {
       setLoading(true);
       const res = await API.get('/opportunities');
       setActivities(res.data);
-    } catch (error: any) {
-      console.error("Error fetching activities:", error);
+    } catch (error: unknown) {
+      // Error fetching activities
       if (error.response?.status === 401) {
         navigate('/login');
       }
@@ -77,8 +78,8 @@ const Activities = () => {
         setShowRequestModal(false);
         setRequestSuccess(false);
       }, 2000);
-    } catch (error: any) {
-      setRequestError(error.response?.data?.message || 'Failed to submit request');
+    } catch (error: unknown) {
+      setRequestError(getErrorMessage(error) || 'Failed to submit request');
     } finally {
       setSubmitting(false);
     }
@@ -106,7 +107,7 @@ const Activities = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4">

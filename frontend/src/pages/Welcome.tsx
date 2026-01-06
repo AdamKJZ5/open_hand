@@ -11,14 +11,14 @@ const Welcome = () => {
         const user = JSON.parse(userStr);
         setUserName(user.name || '');
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Silently handle parsing error
       }
     }
   }, []);
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-16 md:pb-24">
         {/* Welcome Header */}
         <div className="text-center mb-12">
           <div className="inline-block mb-6">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -47,8 +48,8 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
       setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
       setError('');
       onSuccess();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to change password. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to change password. Please try again.');
     } finally {
       setLoading(false);
     }

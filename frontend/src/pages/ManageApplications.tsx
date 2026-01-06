@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface Application {
   _id: string;
@@ -33,8 +34,8 @@ const ManageApplications = () => {
       const response = await API.get('/resident-applications', { params });
       setApplications(response.data.data);
       setError('');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to fetch applications');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to fetch applications');
     } finally {
       setLoading(false);
     }
@@ -45,14 +46,12 @@ const ManageApplications = () => {
       const response = await API.get(`/resident-applications/${appId}`);
       setSelectedApp(response.data.data);
       setShowDetails(true);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to fetch application details');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to fetch application details');
     }
   };
 
   const updateStatus = async (appId: string, newStatus: string) => {
-    if (!window.confirm(`Change status to ${newStatus}?`)) return;
-
     try {
       await API.put(`/resident-applications/${appId}/status`, { status: newStatus });
       await fetchApplications();
@@ -60,15 +59,12 @@ const ManageApplications = () => {
         setShowDetails(false);
         setSelectedApp(null);
       }
-      alert('Status updated successfully!');
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to update status');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to update status');
     }
   };
 
   const deleteApplication = async (appId: string) => {
-    if (!window.confirm('Are you sure you want to delete this application? This action cannot be undone.')) return;
-
     try {
       await API.delete(`/resident-applications/${appId}`);
       await fetchApplications();
@@ -76,9 +72,8 @@ const ManageApplications = () => {
         setShowDetails(false);
         setSelectedApp(null);
       }
-      alert('Application deleted successfully!');
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete application');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to delete application');
     }
   };
 
@@ -110,7 +105,7 @@ const ManageApplications = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F5F1E8] pt-[100px] pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">

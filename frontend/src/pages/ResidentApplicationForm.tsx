@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 interface ResidentApplicationData {
   // Personal Information
@@ -121,8 +122,8 @@ const ResidentApplicationForm = () => {
       setTimeout(() => {
         navigate('/');
       }, 3000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit application');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to submit application');
     } finally {
       setLoading(false);
     }
@@ -145,9 +146,9 @@ const ResidentApplicationForm = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-4xl mx-auto">
-        <div className="bg-[#F5F1E8] rounded-lg shadow-md p-8">
+      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 pt-[100px] pb-12">
+        <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border-2 border-[#7C9A7F]">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Resident Application</h1>
           <p className="text-gray-600 mb-8">
             Please fill out this form to apply for residency at our care facility.

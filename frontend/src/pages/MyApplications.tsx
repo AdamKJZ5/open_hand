@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../api';
+import { getApplicationStatusColor, getStatusEmoji } from '../utils/statusHelpers';
 
 interface Application {
   _id: string;
@@ -37,30 +38,10 @@ const MyApplications = () => {
       const response = await API.get('/opportunity-applications/my-applications');
       setApplications(response.data.data);
     } catch (error) {
-      console.error('Error fetching applications:', error);
+      // Error fetching applications
     } finally {
       setLoading(false);
     }
-  };
-
-  const getStatusColor = (status: string) => {
-    const colors: { [key: string]: string } = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      reviewed: 'bg-blue-100 text-blue-800',
-      accepted: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800';
-  };
-
-  const getStatusEmoji = (status: string) => {
-    const emojis: { [key: string]: string } = {
-      pending: '⏳',
-      reviewed: '👀',
-      accepted: '✅',
-      rejected: '❌'
-    };
-    return emojis[status] || '📄';
   };
 
   const getCategoryColor = (category: string) => {
@@ -85,7 +66,7 @@ const MyApplications = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-[100px] pb-12">
         {/* Header */}
         <div className="mb-8">
           <Link
@@ -129,7 +110,7 @@ const MyApplications = () => {
                         <span className={`px-3 py-1 text-xs font-bold text-white rounded-full bg-gradient-to-r ${getCategoryColor(app.opportunity.category)}`}>
                           {app.opportunity.category}
                         </span>
-                        <span className={`px-3 py-1 text-xs font-bold rounded-full ${getStatusColor(app.status)}`}>
+                        <span className={`px-3 py-1 text-xs font-bold rounded-full ${getApplicationStatusColor(app.status)}`}>
                           {getStatusEmoji(app.status)} {app.status.replace('_', ' ').toUpperCase()}
                         </span>
                       </div>

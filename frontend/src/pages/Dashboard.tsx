@@ -24,7 +24,7 @@ const Dashboard = () => {
         const user = JSON.parse(userStr);
         setUserRole(user.role || '');
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Error parsing user data - redirect to login
         navigate('/login');
       }
     }

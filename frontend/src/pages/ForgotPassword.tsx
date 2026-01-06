@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../api';
+import { getErrorMessage } from '../types/errors';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -18,8 +19,8 @@ const ForgotPassword = () => {
       const response = await API.post('/password-reset/request', { email });
       setMessage(response.data.message);
       setEmail(''); // Clear form
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to send reset link. Please try again.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err) || 'Failed to send reset link. Please try again.');
     } finally {
       setLoading(false);
     }

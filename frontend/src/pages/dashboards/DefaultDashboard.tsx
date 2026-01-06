@@ -11,13 +11,13 @@ const DefaultDashboard = () => {
         const user = JSON.parse(userStr);
         setUserName(user.name || 'User');
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Silently handle parsing error
       }
     }
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 pt-[100px] pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">

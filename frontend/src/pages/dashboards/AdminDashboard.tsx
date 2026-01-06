@@ -19,7 +19,7 @@ const AdminDashboard = () => {
         setUserName(user.name || 'Admin');
         setUserEmail(user.email || '');
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Silently handle parsing error
       }
     }
   }, []);
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 pt-[100px] pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
