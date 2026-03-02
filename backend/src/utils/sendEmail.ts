@@ -20,7 +20,7 @@ const sendEmail = async (options: { email: string; subject: string; message: str
   };
 
   // 3. Actually send the email
-  await transporter.sendEmail(mailOptions);
+  await transporter.sendMail(mailOptions);
 };
 
 export default sendEmail;

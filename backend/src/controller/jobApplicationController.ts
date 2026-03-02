@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { JobApplication } from '../models/JobApplication';
 import { JobPosting } from '../models/JobPosting';
 import { User } from '../models/Users';
+import { logError } from '../config/logger';
 
 // Submit job application
 export const submitJobApplication = async (req: Request, res: Response) => {
@@ -57,7 +58,7 @@ export const submitJobApplication = async (req: Request, res: Response) => {
     if (error.code === 11000) {
       return res.status(400).json({ message: 'You have already applied to this job' });
     }
-    console.error('Error submitting job application:', error);
+    logError('Error submitting job application', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -73,7 +74,7 @@ export const getMyJobApplications = async (req: Request, res: Response) => {
 
     res.json(applications);
   } catch (error) {
-    console.error('Error fetching job applications:', error);
+    logError('Error fetching job applications', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -94,7 +95,7 @@ export const getAllJobApplications = async (req: Request, res: Response) => {
 
     res.json(applications);
   } catch (error) {
-    console.error('Error fetching all job applications:', error);
+    logError('Error fetching all job applications', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -130,7 +131,7 @@ export const updateJobApplicationStatus = async (req: Request, res: Response) =>
       application
     });
   } catch (error) {
-    console.error('Error updating application status:', error);
+    logError('Error updating application status', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -148,7 +149,7 @@ export const deleteJobApplication = async (req: Request, res: Response) => {
 
     res.json({ message: 'Application deleted successfully' });
   } catch (error) {
-    console.error('Error deleting application:', error);
+    logError('Error deleting application', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };

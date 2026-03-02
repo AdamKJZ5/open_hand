@@ -15,22 +15,23 @@ import {
   deleteJobApplication
 } from '../controller/jobApplicationController';
 import { protect, admin } from '../middleware/authMiddleware';
+import { createJobPostingValidation, mongoIdValidation } from '../middleware/validation';
 
 const router = express.Router();
 
 // Job Posting Routes
 router.get('/postings/active', getActiveJobPostings); // Public - get active jobs
 router.get('/postings', protect, admin, getAllJobPostings); // Admin - get all jobs
-router.get('/postings/:id', getJobPostingById); // Public - get single job
-router.post('/postings', protect, admin, createJobPosting); // Admin - create job
-router.put('/postings/:id', protect, admin, updateJobPosting); // Admin - update job
-router.delete('/postings/:id', protect, admin, deleteJobPosting); // Admin - delete job
+router.get('/postings/:id', mongoIdValidation, getJobPostingById); // Public - get single job
+router.post('/postings', protect, admin, createJobPostingValidation, createJobPosting); // Admin - create job
+router.put('/postings/:id', protect, admin, mongoIdValidation, updateJobPosting); // Admin - update job
+router.delete('/postings/:id', protect, admin, mongoIdValidation, deleteJobPosting); // Admin - delete job
 
 // Job Application Routes
-router.post('/postings/:jobId/apply', protect, submitJobApplication); // User - apply to job
+router.post('/postings/:jobId/apply', protect, mongoIdValidation, submitJobApplication); // User - apply to job
 router.get('/applications/my-applications', protect, getMyJobApplications); // User - get own applications
 router.get('/applications', protect, admin, getAllJobApplications); // Admin - get all applications
-router.put('/applications/:id/status', protect, admin, updateJobApplicationStatus); // Admin - update status
-router.delete('/applications/:id', protect, admin, deleteJobApplication); // Admin - delete application
+router.put('/applications/:id/status', protect, admin, mongoIdValidation, updateJobApplicationStatus); // Admin - update status
+router.delete('/applications/:id', protect, admin, mongoIdValidation, deleteJobApplication); // Admin - delete application
 
 export default router;

@@ -1,10 +1,5 @@
 // Status badge color utilities
 
-type ApplicationStatus = 'pending' | 'reviewed' | 'accepted' | 'rejected';
-type JobApplicationStatus = 'pending' | 'reviewed' | 'interview' | 'accepted' | 'rejected';
-type LeadStatus = 'new' | 'contacted' | 'qualified' | 'converted' | 'closed';
-type JobStatus = 'active' | 'closed';
-
 export const getApplicationStatusColor = (status: string): string => {
   const colors: { [key: string]: string } = {
     pending: 'bg-yellow-100 text-yellow-800',

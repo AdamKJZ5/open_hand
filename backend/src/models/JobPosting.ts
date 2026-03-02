@@ -62,4 +62,10 @@ const jobPostingSchema = new Schema<IJobPosting>({
   timestamps: true
 });
 
+// Indexes for performance
+jobPostingSchema.index({ status: 1 }); // Frequently queried for active/closed jobs
+jobPostingSchema.index({ createdAt: -1 }); // For sorting by creation date
+jobPostingSchema.index({ type: 1 }); // Filter by job type
+jobPostingSchema.index({ location: 1 }); // Filter by location
+
 export const JobPosting = model<IJobPosting>('JobPosting', jobPostingSchema);

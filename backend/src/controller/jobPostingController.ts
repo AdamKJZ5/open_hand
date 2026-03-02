@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { JobPosting } from '../models/JobPosting';
+import { logError } from '../config/logger';
 
 // Get all active job postings (public)
 export const getActiveJobPostings = async (req: Request, res: Response) => {
@@ -7,7 +8,7 @@ export const getActiveJobPostings = async (req: Request, res: Response) => {
     const jobs = await JobPosting.find({ status: 'active' }).sort({ createdAt: -1 });
     res.json(jobs);
   } catch (error) {
-    console.error('Error fetching active job postings:', error);
+    logError('Error fetching active job postings', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -18,7 +19,7 @@ export const getAllJobPostings = async (req: Request, res: Response) => {
     const jobs = await JobPosting.find().sort({ createdAt: -1 });
     res.json(jobs);
   } catch (error) {
-    console.error('Error fetching all job postings:', error);
+    logError('Error fetching all job postings', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -35,7 +36,7 @@ export const getJobPostingById = async (req: Request, res: Response) => {
 
     res.json(job);
   } catch (error) {
-    console.error('Error fetching job posting:', error);
+    logError('Error fetching job posting', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -59,7 +60,7 @@ export const createJobPosting = async (req: Request, res: Response) => {
 
     res.status(201).json(job);
   } catch (error) {
-    console.error('Error creating job posting:', error);
+    logError('Error creating job posting', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -82,7 +83,7 @@ export const updateJobPosting = async (req: Request, res: Response) => {
 
     res.json(job);
   } catch (error) {
-    console.error('Error updating job posting:', error);
+    logError('Error updating job posting', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -100,7 +101,7 @@ export const deleteJobPosting = async (req: Request, res: Response) => {
 
     res.json({ message: 'Job posting deleted successfully' });
   } catch (error) {
-    console.error('Error deleting job posting:', error);
+    logError('Error deleting job posting', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };

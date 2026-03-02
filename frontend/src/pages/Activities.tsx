@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import API from '../api';
 import { getErrorMessage } from '../types/errors';
 
@@ -14,7 +14,6 @@ interface Activity {
 }
 
 const Activities = () => {
-  const navigate = useNavigate();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [showRequestModal, setShowRequestModal] = useState(false);
@@ -49,10 +48,7 @@ const Activities = () => {
       const res = await API.get('/opportunities');
       setActivities(res.data);
     } catch (error: unknown) {
-      // Error fetching activities
-      if (error.response?.status === 401) {
-        navigate('/login');
-      }
+      // Error fetching activities - handled by API interceptor
     } finally {
       setLoading(false);
     }

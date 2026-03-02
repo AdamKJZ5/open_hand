@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Lead } from '../models/Lead';
+import { logError } from '../config/logger';
 
 export const createLead = async (req: Request, res: Response) => {
   try {
@@ -26,7 +27,7 @@ export const createLead = async (req: Request, res: Response) => {
           `
         });
       } catch (emailErr) {
-        console.error('Email failed to send, but lead was saved to DB');
+        logError('Email failed to send, but lead was saved to DB', emailErr as Error);
       }
 
     res.status(201).json({ 

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { User } from '../models/Users';
 import jwt from 'jsonwebtoken';
+import { logError } from '../config/logger';
 
 const generateToken = (id: any, role: string) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET as string, {
@@ -33,7 +34,7 @@ export const registerUser = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user.id)
+      token: generateToken(user.id, user.role)
     });
 
   } catch (error) {
@@ -88,7 +89,7 @@ export const verifyPassword = async (req: Request, res: Response) => {
       res.status(401).json({ message: 'Incorrect password' });
     }
   } catch (error) {
-    console.error('Password verification error:', error);
+    logError('Password verification error', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -102,8 +103,21 @@ export const changePassword = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Current password and new password are required' });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ message: 'New password must be at least 6 characters long' });
+    // Password validation
+    if (newPassword.length < 8) {
+      return res.status(400).json({ message: 'New password must be at least 8 characters long' });
+    }
+
+    // Check for password complexity
+    const hasUpperCase = /[A-Z]/.test(newPassword);
+    const hasLowerCase = /[a-z]/.test(newPassword);
+    const hasNumbers = /\d/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
+      return res.status(400).json({
+        message: 'Password must contain at least one uppercase letter, lowercase letter, number, and special character'
+      });
     }
 
     // Find user and include password field
@@ -130,7 +144,7 @@ export const changePassword = async (req: Request, res: Response) => {
 
     res.json({ message: 'Password changed successfully' });
   } catch (error) {
-    console.error('Change password error:', error);
+    logError('Change password error', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };

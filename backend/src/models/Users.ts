@@ -65,4 +65,11 @@ const userSchema = new Schema<IUser>({
   }
 });
 
+// Indexes for performance
+// Note: email index created automatically by unique: true, no need to duplicate
+userSchema.index({ role: 1 }); // Frequently queried for role-based access
+userSchema.index({ hasSchedule: 1 }); // Queried for schedule management
+userSchema.index({ resetPasswordToken: 1 }); // For password reset lookups
+userSchema.index({ createdAt: -1 }); // For sorting users by creation date
+
 export const User = model<IUser>('User', userSchema);

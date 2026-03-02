@@ -1,20 +1,33 @@
 import axios from 'axios';
 
-// Automatically use network IP if accessing from network, otherwise use localhost
+// Get API base URL from environment variable or construct from window location
 const getBaseURL = () => {
-  const hostname = window.location.hostname;
-
-  // If accessing via network IP (not localhost), use network IP for backend
-  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-    return `http://${hostname}:5001/api`;
+  // Priority 1: Use environment variable if provided (production/staging)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
   }
 
-  // Default to localhost
-  return 'http://localhost:5001/api';
+  // Priority 2: Development - automatically detect network or localhost
+  const hostname = window.location.hostname;
+  const port = import.meta.env.VITE_API_PORT || '5001';
+
+  // If accessing via network IP (not localhost), use network IP for backend
+  // This allows testing on mobile devices on same network
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    console.warn(`Using network IP for API: http://${hostname}:${port}/api`);
+    return `http://${hostname}:${port}/api`;
+  }
+
+  // Default to localhost for local development
+  return `http://localhost:${port}/api`;
 };
 
 const API = axios.create({
   baseURL: getBaseURL(),
+  timeout: 30000, // 30 second timeout
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/Users';
+import { logError } from '../config/logger';
 
 // Get all users (admin only)
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -9,7 +10,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
     res.json(users);
   } catch (error) {
-    console.error('Error fetching users:', error);
+    logError('Error fetching users', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -39,7 +40,7 @@ export const updateUserRole = async (req: Request, res: Response) => {
     const updatedUser = await User.findById(userId).select('-password');
     res.json({ message: 'User role updated successfully', user: updatedUser });
   } catch (error) {
-    console.error('Error updating user role:', error);
+    logError('Error updating user role', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -63,7 +64,7 @@ export const toggleUserSchedule = async (req: Request, res: Response) => {
     const updatedUser = await User.findById(userId).select('-password');
     res.json({ message: 'User schedule status updated successfully', user: updatedUser });
   } catch (error) {
-    console.error('Error updating user schedule:', error);
+    logError('Error updating user schedule', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -90,7 +91,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     await User.findByIdAndDelete(userId);
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    console.error('Error deleting user:', error);
+    logError('Error deleting user', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };

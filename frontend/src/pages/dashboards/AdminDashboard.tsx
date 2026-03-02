@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PasswordPrompt from '../../components/PasswordPrompt';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
+import MessagePortal from '../../components/MessagePortal';
 
 const AdminDashboard = () => {
   const [userName, setUserName] = useState('Admin');
@@ -40,177 +41,202 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 pt-[100px] pb-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#F5F1E8] pt-[100px] pb-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-[#7C9A7F]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+      <div className="absolute top-40 right-10 w-96 h-96 bg-[#8B6F47]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-20 left-1/2 w-96 h-96 bg-[#D4B896]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000"></div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#4A6741] to-[#5A7A5F] bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] bg-clip-text text-transparent mb-4 animate-fade-in">
             ⚡ Admin Dashboard
           </h1>
-          <p className="text-2xl md:text-3xl text-gray-700">Welcome back, {userName}!</p>
+          <p className="text-2xl md:text-3xl text-gray-700 animate-fade-in-delay">Welcome back, {userName}!</p>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <Link
             to="/admin/users"
-            className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+            className="group relative bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 border-2 border-transparent hover:border-indigo-200 overflow-hidden"
           >
-            <div className="text-4xl mb-3">👥</div>
-            <h3 className="text-xl font-bold mb-2">Manage Users</h3>
-            <p className="text-white/90 text-sm">View and edit all users</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                <span className="text-3xl">👥</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Manage Users</h3>
+              <p className="text-sm text-gray-600">View and edit all users</p>
+            </div>
           </Link>
           <Link
             to="/admin/leads"
-            className="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+            className="group relative bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 border-2 border-transparent hover:border-cyan-200 overflow-hidden"
           >
-            <div className="text-4xl mb-3">📞</div>
-            <h3 className="text-xl font-bold mb-2">Manage Leads</h3>
-            <p className="text-white/90 text-sm">View customer inquiries</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                <span className="text-3xl">📞</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Manage Leads</h3>
+              <p className="text-sm text-gray-600">View customer inquiries</p>
+            </div>
           </Link>
           <Link
             to="/admin/applications"
-            className="bg-gradient-to-br from-[#5A7A5F] to-[#7C9A7F] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+            className="group relative bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 border-2 border-transparent hover:border-[#7C9A7F] overflow-hidden"
           >
-            <div className="text-4xl mb-3">⚙️</div>
-            <h3 className="text-xl font-bold mb-2">Resident Applications</h3>
-            <p className="text-white/90 text-sm">Review applications</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-[#5A7A5F]/5 to-[#7C9A7F]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#5A7A5F] to-[#7C9A7F] rounded-2xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                <span className="text-3xl">⚙️</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Resident Applications</h3>
+              <p className="text-sm text-gray-600">Review applications</p>
+            </div>
           </Link>
           <Link
             to="/admin/opportunity-applications"
-            className="bg-gradient-to-br from-[#7C9A7F] to-[#5A7A5F] rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+            className="group relative bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1 border-2 border-transparent hover:border-[#7C9A7F] overflow-hidden"
           >
-            <div className="text-4xl mb-3">🎨</div>
-            <h3 className="text-xl font-bold mb-2">Activity Registrations</h3>
-            <p className="text-white/90 text-sm">Manage activity requests</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-[#7C9A7F]/5 to-[#5A7A5F]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#7C9A7F] to-[#5A7A5F] rounded-2xl mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                <span className="text-3xl">🎨</span>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Activity Registrations</h3>
+              <p className="text-sm text-gray-600">Manage activity requests</p>
+            </div>
           </Link>
         </div>
 
         {/* Main Dashboard Sections */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Caretaker Schedules */}
-          <div className="bg-[#F5F1E8] rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                <span className="text-3xl mr-2">👨‍⚕️</span>
-                Caretaker Schedules
+          <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 p-8 border-2 border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="text-3xl">👨‍⚕️</span>
+                <span>Caretaker Schedules</span>
               </h2>
-              <button className="text-[#4A6741] hover:text-indigo-800 font-semibold text-sm">
-                View All →
+              <button className="px-4 py-2 text-[#4A6741] hover:bg-[#4A6741] hover:text-white font-semibold text-sm rounded-full transition-all duration-200 border-2 border-[#4A6741]">
+                View All
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {/* Placeholder for caretaker schedules */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="font-semibold text-gray-900">Sarah Johnson</p>
-                  <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">ON DUTY</span>
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-2xl border-2 border-blue-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="font-bold text-gray-900 text-lg">Sarah Johnson</p>
+                  <span className="px-4 py-1.5 bg-green-500 text-white text-xs font-bold rounded-full shadow-sm">ON DUTY</span>
                 </div>
-                <p className="text-sm text-gray-600">Shift: 8:00 AM - 4:00 PM</p>
-                <p className="text-xs text-gray-500 mt-1">Assigned: Room 101, 102, 103</p>
+                <p className="text-sm text-gray-700 font-medium">Shift: 8:00 AM - 4:00 PM</p>
+                <p className="text-xs text-gray-600 mt-2">Assigned: Room 101, 102, 103</p>
               </div>
-              <div className="bg-gradient-to-r from-[#E8EDE7] to-[#F5F1E8] p-4 rounded-xl border border-purple-200">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="font-semibold text-gray-900">Michael Chen</p>
-                  <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">UPCOMING</span>
+              <div className="bg-gradient-to-r from-[#E8EDE7] to-[#F5F1E8] p-5 rounded-2xl border-2 border-[#D4B896] hover:border-[#8B6F47] hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="font-bold text-gray-900 text-lg">Michael Chen</p>
+                  <span className="px-4 py-1.5 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-sm">UPCOMING</span>
                 </div>
-                <p className="text-sm text-gray-600">Shift: 4:00 PM - 12:00 AM</p>
-                <p className="text-xs text-gray-500 mt-1">Assigned: Room 104, 105, 106</p>
+                <p className="text-sm text-gray-700 font-medium">Shift: 4:00 PM - 12:00 AM</p>
+                <p className="text-xs text-gray-600 mt-2">Assigned: Room 104, 105, 106</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
-                <p className="text-sm text-gray-500">🔧 Full schedule management coming soon</p>
+              <div className="bg-gray-50 p-5 rounded-2xl border-2 border-dashed border-gray-300 text-center">
+                <p className="text-sm text-gray-500 font-medium">🔧 Full schedule management coming soon</p>
               </div>
             </div>
           </div>
 
           {/* Client/Resident Schedules */}
-          <div className="bg-[#F5F1E8] rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                <span className="text-3xl mr-2">👥</span>
-                Resident Schedules
+          <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 p-8 border-2 border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="text-3xl">👥</span>
+                <span>Resident Schedules</span>
               </h2>
-              <button className="text-[#4A6741] hover:text-indigo-800 font-semibold text-sm">
-                View All →
+              <button className="px-4 py-2 text-[#4A6741] hover:bg-[#4A6741] hover:text-white font-semibold text-sm rounded-full transition-all duration-200 border-2 border-[#4A6741]">
+                View All
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {/* Placeholder for resident schedules */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="font-semibold text-gray-900">Robert Williams</p>
-                  <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">ACTIVE</span>
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-2xl border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="font-bold text-gray-900 text-lg">Robert Williams</p>
+                  <span className="px-4 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full shadow-sm">ACTIVE</span>
                 </div>
-                <p className="text-sm text-gray-600">Today: Breakfast → Morning Activity → Lunch → Rest</p>
-                <p className="text-xs text-gray-500 mt-1">Room 101 | Caretaker: Sarah J.</p>
+                <p className="text-sm text-gray-700 font-medium">Today: Breakfast → Morning Activity → Lunch → Rest</p>
+                <p className="text-xs text-gray-600 mt-2">Room 101 | Caretaker: Sarah J.</p>
               </div>
-              <div className="bg-gradient-to-r from-orange-50 to-yellow-50 p-4 rounded-xl border border-orange-200">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="font-semibold text-gray-900">Mary Thompson</p>
-                  <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">ACTIVE</span>
+              <div className="bg-gradient-to-r from-orange-50 to-yellow-50 p-5 rounded-2xl border-2 border-orange-200 hover:border-orange-400 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="font-bold text-gray-900 text-lg">Mary Thompson</p>
+                  <span className="px-4 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full shadow-sm">ACTIVE</span>
                 </div>
-                <p className="text-sm text-gray-600">Today: Medication → Therapy → Lunch → Gardening Club</p>
-                <p className="text-xs text-gray-500 mt-1">Room 102 | Caretaker: Sarah J.</p>
+                <p className="text-sm text-gray-700 font-medium">Today: Medication → Therapy → Lunch → Gardening Club</p>
+                <p className="text-xs text-gray-600 mt-2">Room 102 | Caretaker: Sarah J.</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
-                <p className="text-sm text-gray-500">🔧 Full resident scheduling coming soon</p>
+              <div className="bg-gray-50 p-5 rounded-2xl border-2 border-dashed border-gray-300 text-center">
+                <p className="text-sm text-gray-500 font-medium">🔧 Full resident scheduling coming soon</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Activity Schedule & Account Info Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Activity/Daily Schedule */}
-          <div className="bg-[#F5F1E8] rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                <span className="text-3xl mr-2">📅</span>
-                Today's Activities
+          <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 p-8 border-2 border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="text-3xl">📅</span>
+                <span>Today's Activities</span>
               </h2>
-              <Link to="/activities" className="text-[#4A6741] hover:text-indigo-800 font-semibold text-sm">
-                View All →
+              <Link to="/activities" className="px-4 py-2 text-[#4A6741] hover:bg-[#4A6741] hover:text-white font-semibold text-sm rounded-full transition-all duration-200 border-2 border-[#4A6741]">
+                View All
               </Link>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-center p-3 bg-[#E8EDE7] rounded-xl border border-purple-200">
-                <div className="text-2xl mr-3">🎨</div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 bg-[#E8EDE7] rounded-2xl border-2 border-[#D4B896] hover:border-[#8B6F47] hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="text-3xl">🎨</div>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900">Art Class</p>
+                  <p className="font-bold text-gray-900">Art Class</p>
                   <p className="text-sm text-gray-600">10:00 AM - 11:30 AM | Main Hall</p>
                 </div>
-                <span className="px-2 py-1 bg-purple-100 text-[#3A5531] text-xs font-bold rounded-full">12 joined</span>
+                <span className="px-4 py-1.5 bg-purple-500 text-white text-xs font-bold rounded-full shadow-sm">12</span>
               </div>
-              <div className="flex items-center p-3 bg-green-50 rounded-xl border border-green-200">
-                <div className="text-2xl mr-3">🌱</div>
+              <div className="flex items-center gap-4 p-4 bg-green-50 rounded-2xl border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="text-3xl">🌱</div>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900">Gardening Club</p>
+                  <p className="font-bold text-gray-900">Gardening Club</p>
                   <p className="text-sm text-gray-600">2:00 PM - 3:30 PM | Garden</p>
                 </div>
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">8 joined</span>
+                <span className="px-4 py-1.5 bg-green-500 text-white text-xs font-bold rounded-full shadow-sm">8</span>
               </div>
-              <div className="flex items-center p-3 bg-blue-50 rounded-xl border border-blue-200">
-                <div className="text-2xl mr-3">🎬</div>
+              <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border-2 border-blue-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="text-3xl">🎬</div>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900">Movie Night</p>
+                  <p className="font-bold text-gray-900">Movie Night</p>
                   <p className="text-sm text-gray-600">7:00 PM - 9:00 PM | Theater Room</p>
                 </div>
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">15 joined</span>
+                <span className="px-4 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full shadow-sm">15</span>
               </div>
             </div>
           </div>
 
           {/* Account Info */}
-          <div className="bg-[#F5F1E8] rounded-2xl shadow-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                <span className="text-3xl mr-2">👤</span>
-                Account Info
+          <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 p-8 border-2 border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="text-3xl">👤</span>
+                <span>Account Info</span>
               </h2>
             </div>
             {!showAccountInfo ? (
               <div className="text-center py-8">
-                <div className="inline-block p-4 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full mb-4">
+                <div className="inline-block p-4 bg-gradient-to-r from-[#7C9A7F]/20 to-[#D4B896]/20 rounded-full mb-4">
                   <svg className="h-12 w-12 text-[#4A6741]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
@@ -219,7 +245,7 @@ const AdminDashboard = () => {
                 <p className="text-sm text-gray-600 mb-4">Verify your password to view account details</p>
                 <button
                   onClick={handleViewAccountInfo}
-                  className="px-6 py-3 bg-gradient-to-r from-[#4A6741] to-[#5A7A5F] text-white rounded-full font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105"
+                  className="px-6 py-3 bg-gradient-to-r from-[#4A6741] to-[#7C9A7F] text-white rounded-full font-semibold hover:from-[#3A5531] hover:to-[#6C8A6F] transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
                 >
                   View Account Info
                 </button>
@@ -246,7 +272,7 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Role</p>
-                  <span className="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm font-bold rounded-full">Administrator</span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-[#7C9A7F]/20 to-[#D4B896]/20 text-[#4A6741] text-sm font-bold rounded-full border border-[#7C9A7F]/30">Administrator</span>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Login Email</p>
@@ -258,7 +284,7 @@ const AdminDashboard = () => {
                     <p className="font-semibold text-gray-900">••••••••</p>
                     <button
                       onClick={() => setShowChangePasswordModal(true)}
-                      className="text-sm text-[#4A6741] hover:text-indigo-800 font-semibold"
+                      className="text-sm text-[#4A6741] hover:text-[#3A5531] font-semibold transition-colors duration-200"
                     >
                       Change Password
                     </button>
@@ -275,7 +301,7 @@ const AdminDashboard = () => {
                 </div>
                 <button
                   onClick={() => setShowAccountInfo(false)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-all text-sm"
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 hover:border-[#7C9A7F] transition-all duration-200 text-sm"
                 >
                   Hide Account Info
                 </button>
@@ -284,35 +310,8 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Message Portal Placeholder */}
-        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-xl p-8 text-white">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-3xl font-bold mb-2 flex items-center">
-                <span className="text-4xl mr-3">💬</span>
-                Message Portal
-              </h2>
-              <p className="text-white/90">Communicate with caretakers and residents</p>
-            </div>
-            <span className="px-4 py-2 bg-[#F5F1E8]/20 backdrop-blur-sm rounded-full font-bold text-sm">COMING SOON</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <div className="bg-[#F5F1E8]/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-              <div className="flex items-center mb-2">
-                <span className="text-2xl mr-2">👥</span>
-                <p className="font-bold">Group Chat</p>
-              </div>
-              <p className="text-sm text-white/80">Broadcast to all staff or create groups</p>
-            </div>
-            <div className="bg-[#F5F1E8]/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-              <div className="flex items-center mb-2">
-                <span className="text-2xl mr-2">✉️</span>
-                <p className="font-bold">Direct Messages</p>
-              </div>
-              <p className="text-sm text-white/80">One-on-one conversations with staff</p>
-            </div>
-          </div>
-        </div>
+        {/* Message Portal */}
+        <MessagePortal />
       </div>
 
       {/* Password Prompt Modal */}

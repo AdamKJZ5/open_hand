@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '../models/Users';
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
+import { logError } from '../config/logger';
 
 // Initialize Twilio client (optional - only if credentials are provided)
 const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
@@ -97,14 +98,14 @@ export const requestPasswordReset = async (req: Request, res: Response) => {
           to: user.phoneNumber,
         });
       } catch (smsError) {
-        console.error('SMS sending failed:', smsError);
+        logError('SMS sending failed', smsError as Error);
         // Don't fail the request if SMS fails
       }
     }
 
     res.json({ message: 'If that email exists, a reset link has been sent.' });
   } catch (error) {
-    console.error('Password reset request error:', error);
+    logError('Password reset request error', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -147,7 +148,7 @@ export const resetPassword = async (req: Request, res: Response) => {
 
     res.json({ message: 'Password reset successful. You can now login with your new password.' });
   } catch (error) {
-    console.error('Password reset error:', error);
+    logError('Password reset error', error as Error);
     res.status(500).json({ message: 'Server error' });
   }
 };
